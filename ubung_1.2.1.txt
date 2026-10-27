@@ -1,0 +1,82 @@
+Aufgabe: C und seine Kompilierungspipeline verstehen
+Erkläre die Rolle von C in der modernen Softwareentwicklung und beschreibe, wie eine C-Quelldatei in ein laufendes Programm umgewandelt wird.
+
+a) Nenne drei Anwendungsbereiche, in denen C heute aktiv eingesetzt wird, und begründe kurz, warum C in jedem dieser Bereiche die bevorzugte Sprache ist.
+
+b) Beschreibe die vier Stufen der C-Kompilierungspipeline in der richtigen Reihenfolge. Gib für jede Stufe an, was sie als Eingabe erhält und was sie als Ausgabe erzeugt.
+
+c) Erkläre den Unterschied zwischen einem Compiler-Fehler und einer Compiler-Warnung. Warum wird empfohlen, immer mit den Flags -Wall und -Wextra zu kompilieren, auch wenn dein Programm scheinbar funktioniert?
+
+Kurssskript (Kapitel 1)
+GCC oder Clang auf deinem System installiert und funktionsfähig
+
+
+Lösung 01.2.Ü.01
+Abschlussbedingungen
+ Erledigt: Anzeigen
+a) Drei Anwendungsbereiche für C
+
+1. Betriebssystem-Kernel (z. B. Linux, Windows NT)
+Der Linux-Kernel ist fast vollständig in C geschrieben. Betriebssysteme müssen direkt mit Hardware interagieren, Speicher auf Byte-Ebene verwalten und Code mit minimalem Overhead ausführen. C bietet direkten Speicherzugriff über Zeiger und kompiliert zu effizientem Maschinencode ohne eine Laufzeitschicht wie eine virtuelle Maschine. Keine andere verbreitete Sprache bietet diese Kombination aus Leistung und Hardware-Nähe.
+
+2. Eingebettete Systeme und Mikrocontroller (z. B. Automotive-ECUs, medizinische Geräte)
+Mikrocontroller haben oft nur wenige Kilobyte RAM und kein Betriebssystem. C erzeugt kompakte ausführbare Dateien ohne versteckte Laufzeitkosten, was es zur einzig realistischen Wahl macht, wenn Ressourcen extrem knapp sind. Die Sprache ermöglicht auch die direkte Registerbearbeitung, die für die Steuerung von Hardware-Peripheriegeräten unerlässlich ist.
+
+3. Datenbanken und Infrastruktur-Software (z. B. SQLite, PostgreSQL, Redis)
+Diese Systeme verarbeiten Millionen von Anfragen und müssen schnell und vorhersehbar sein. C gibt Entwicklern die volle Kontrolle über Speicherzuweisung und Datenlayout, was eine fein abgestimmte Leistung ermöglicht, die eine Sprache mit Garbage Collection nicht zuverlässig garantieren kann. Die Stabilität des ABIs (Application Binary Interface) von C macht es auch einfach, C-Code aus praktisch jeder anderen Sprache heraus aufzurufen.
+
+
+
+b) Die vier Stufen der Kompilierungspipeline
+
+Stufe
+
+Eingabe
+
+Ausgabe
+
+1. Präprozessor
+
+Quelldatei (.c)
+
+Erweiterte C-Datei (Makros aufgelöst, #include-Dateien eingefügt)
+
+2. Compiler
+
+Erweiterte C-Datei
+
+Assembly-Datei (.s)
+
+3. Assembler
+
+Assembly-Datei (.s)
+
+Objektdatei (.o) mit Maschinencode und unaufgelösten Referenzen
+
+4. Linker
+
+Objektdatei(en) + Bibliotheken
+
+Fertige ausführbare Datei (z. B. ./hello)
+
+
+Kurze Erklärung jeder Stufe:
+
+Der Präprozessor verarbeitet alle Zeilen, die mit # beginnen. Er kopiert den vollständigen Inhalt eingebundener Header-Dateien in die Quelle und erweitert Makros. Das Ergebnis ist eine einzige, große C-Datei ohne verbleibende #-Direktiven.
+Der Compiler übersetzt den vorverarbeiteten C-Code in Assemblersprache — menschenlesbare CPU-Befehle, die spezifisch für die Zielarchitektur sind.
+Der Assembler konvertiert die Assemblerbefehle in binären Maschinencode, der in einer Objektdatei gespeichert wird. An diesem Punkt sind Referenzen auf externe Funktionen (wie printf) noch unaufgelöste Platzhalter.
+Der Linker kombiniert eine oder mehrere Objektdateien mit der kompilierten Standardbibliothek. Er löst alle unaufgelösten Referenzen auf und erzeugt eine eigenständige ausführbare Datei, die das Betriebssystem ausführen kann.
+
+
+c) Fehler vs. Warnungen und warum Warning-Flags wichtig sind
+
+Compiler-Fehler: Ein Fehler bedeutet, dass der Quellcode die Sprachregeln so schwerwiegend verletzt, dass der Compiler keine gültige ausführbare Datei erzeugen kann. Die Kompilierung wird abgebrochen. Beispiele sind der Aufruf einer nicht deklarierten Funktion oder eine fehlende schließende geschweifte Klammer. Du musst jeden Fehler beheben, bevor du ein lauffähiges Programm erhältst.
+
+Compiler-Warnung: Eine Warnung bedeutet, dass der Code syntaktisch gültig ist und eine ausführbare Datei erzeugt wird, der Compiler jedoch etwas erkannt hat, das wahrscheinlich unbeabsichtigt oder gefährlich ist. Beispiele sind die Verwendung einer nicht initialisierten Variable oder die Übergabe des falschen Typs an eine Funktion. Das Programm kompiliert, kann aber zur Laufzeit falsch oder unvorhersehbar arbeiten.
+
+Warum -Wall und -Wextra wichtig sind:
+
+-Wall aktiviert die am häufigsten nützlichen Warnungskategorien. -Wextra fügt weitere Prüfungen hinzu, die subtilere Probleme aufdecken.
+Ohne diese Flags meldet der Compiler nur das Minimum. Viele echte Bugs — das Lesen einer nicht initialisierten Variable, das Ignorieren eines Rückgabewerts, Off-by-One-Typfehler — bleiben vollständig unentdeckt.
+Eine Warnung ist die Aussage des Compilers: „Dieser Code wird gebaut, aber ich vermute, er ist falsch.” Warnungen als zu behebende Informationen zu behandeln, anstatt sie zu ignorieren, fängt Bugs ab, bevor sie Abstürze oder falsche Ergebnisse im Betrieb verursachen.
+Der empfohlene Kompilierbefehl gcc -Wall -Wextra -std=c23 -o output source.c sollte bereits beim ersten Programm verwendet werden. Die Gewohnheit einer sauberen, warnungsfreien Kompilierung zu entwickeln, erleichtert das Debugging erheblich, wenn Programme komplexer werden.
