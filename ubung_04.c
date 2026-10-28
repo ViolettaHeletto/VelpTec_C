@@ -49,6 +49,21 @@
 // Unter 60: "Grade: F"
 // Verwende nach der Ausgabe der Note den ternären Operator, um zu bestimmen und auszugeben, ob der Schüler bestanden oder nicht bestanden hat: "Result: Pass" wenn die Note 60 oder darüber liegt, andernfalls "Result: Fail".
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Übung 04.3.Ü.02
+// Abschlussbedingungen
+//  Erledigt: Anzeigen
+// Aufgabe: switch, Bedingungen und Operatoren in C anwenden
+// Wende die switch-Anweisung, if-else-if-Ketten und Operatoren an, um die folgenden Programmieraufgaben zu lösen. Jede Teilaufgabe baut auf bisher behandelten C-Konzepten auf, von Variablen und Typumwandlungen bis hin zur Ablaufsteuerung.
+
+// a) Schreibe ein C-Programm, das eine ganze Zahl für eine Monatsnummer (1–12) vom Benutzer mit scanf einliest. Verwende eine switch-Anweisung, um den Namen des Monats auszugeben. Füge einen default-Fall hinzu, der für jeden Wert außerhalb des gültigen Bereichs eine Fehlermeldung ausgibt. Stelle sicher, dass jeder case break korrekt verwendet.
+
+// b) Erweitere das Programm aus Teilaufgabe a): Gib nach dem Monatsnamen auch aus, wie viele Tage dieser Monat hat (nimm an, dass der Februar immer 28 Tage hat). Nutze absichtliches Fall-Through im switch wo sinnvoll (z. B. für Monate mit gleicher Tagesanzahl), und kennzeichne absichtliches Fall-Through mit dem C23-Attribut [[fallthrough]].
+
+// c) Schreibe ein separates kleines Programm, das zwei ganze Zahlen a und b vom Benutzer einliest. Verwende den ternären Operator, um den größeren der beiden Werte zu ermitteln und auszugeben. Berechne dann das Ergebnis von a / b als Gleitkommazahl und gib es aus. Verwende eine explizite Typumwandlung, um Gleitkomma-Division sicherzustellen. Schütze vor Division durch null mit einer if-Bedingung vor der Division — gib eine Fehlermeldung aus, falls b gleich null ist.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 
@@ -144,7 +159,66 @@ int aufgabe_2(){
 
 }
 
+// Schreibe ein separates kleines Programm, das zwei ganze Zahlen a und b vom Benutzer einliest. 
+// Verwende den ternären Operator, um den größeren der beiden Werte zu ermitteln und auszugeben. 
+// Berechne dann das Ergebnis von a / b als Gleitkommazahl und gib es aus. Verwende eine explizite 
+// Typumwandlung, um Gleitkomma-Division sicherzustellen. Schütze vor Division durch null mit einer 
+// if-Bedingung vor der Division — gib eine Fehlermeldung aus, falls b gleich null ist.
+int aufgabe_3_3(){
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+    int max = (a > b) ? a : b;
+    printf("%d", max);
+    printf("\n");
+
+    if (b == 0){
+        printf("Division is unmoglisch");
+    } else{
+        printf("Division is %lf", (double) a / b);
+    }
+}
+
+
+//switch - case
+int aufgabe_3(){
+    int month;
+    printf("Enter month number (1-12): ");
+    int result = scanf("%d", &month);
+
+    if (result != 1) {
+        printf("Error: invalid input\n");
+        return 1;
+    }
+
+    switch (month) {
+        case 1:  printf("January\n");   break;
+        case 2:  printf("February\n");  break;
+        case 3:  printf("March\n");     break;
+        case 4:  printf("April\n");     break;
+        case 5:  printf("May\n");       break;
+        case 6:  printf("June\n");      break;
+        case 7:  printf("July\n");      break;
+        case 8:  printf("August\n");    break;
+        case 9:  printf("September\n"); break;
+        case 10: printf("October\n");   break;
+        case 11: printf("November\n");  break;
+        case 12: printf("December\n");  break;
+        default: printf("Error: %d is not a valid month number\n", month); break;
+    }
+
+    switch (month) {
+        case 4: case 6: case 9: case 11:
+            printf("Days: 30\n");   break;
+        case 2: 
+            printf("Days: 28\n");   break;
+        default:
+            printf("Days: 31\n");   break;
+    }
+
+}
+
 
 int main(void){
-    aufgabe_2();
+    aufgabe_3_3();
 }
