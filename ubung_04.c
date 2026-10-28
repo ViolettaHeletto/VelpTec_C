@@ -65,6 +65,30 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Case Study 04.3.C.01
+// Abschlussbedingungen
+//  Erledigt: Anzeigen
+// Aufgabe: Einen einfachen Taschenrechner mit Bedingungen und switch erstellen
+// Du arbeitest als Junior-C-Entwickler in einem kleinen Softwareunternehmen. Dein Teamleiter hat dich gebeten, ein Kommandozeilen-Taschenrechner-Programm für interne Testzwecke zu implementieren. Das Programm soll zwei Zahlen und einen Operator vom Benutzer einlesen, das Ergebnis berechnen und anzeigen. Dein Teamleiter möchte, dass der Code sauber ist, ungültige Eingaben korrekt behandelt und die richtige Verwendung von C-Ablaufsteuerungsfunktionen demonstriert.
+
+// Die Programmspezifikation lautet wie folgt:
+
+// Den Benutzer auffordern, zwei Zahlen (als double-Werte) einzugeben
+// Den Benutzer auffordern, einen der vier Operatoren einzugeben: +, -, *, /
+// Das Ergebnis mit einer switch-Anweisung berechnen, die die korrekte Operation auswählt
+// Das Ergebnis mit zwei Dezimalstellen ausgeben
+// Falls der Benutzer / eingibt und die zweite Zahl 0 ist, stattdessen eine Fehlermeldung ausgeben
+// Falls der Benutzer einen unbekannten Operator eingibt, eine entsprechende Fehlermeldung über den default-Fall ausgeben
+// Deine Aufgaben:
+
+// a) Schreibe das vollständige oben beschriebene C-Programm. Verwende scanf mit den korrekten Formatbezeichnern, um einen double- und einen char-Wert einzulesen. Verwende eine switch-Anweisung auf das Operatorzeichen. Behandle Division durch null mit einer if-Anweisung innerhalb des entsprechenden case. Füge immer einen default-Fall für unbekannte Operatoren hinzu.
+
+// b) Erkläre, was in deiner switch-Anweisung passiert, wenn du das break nach dem +-Fall vergisst. Beschreibe das Konzept des Fall-Through in eigenen Worten und gib an, welche Ausgabe erscheinen würde, wenn der Benutzer + eingibt, aber kein break zwischen case '+' und case '-' vorhanden ist.
+
+// c) Dein Teamleiter überprüft den Code und schlägt vor, eine Eingabevalidierung für die beiden Zahlen hinzuzufügen: Falls der Benutzer etwas eingibt, das keine gültige Zahl ist (d. h. scanf gibt einen Wert kleiner als 1 zurück), soll das Programm eine Fehlermeldung ausgeben und beenden. Beschreibe, wie du diese Prüfung implementieren würdest, mit Bezug auf den Rückgabewert von scanf und die entsprechende if-Bedingung.
+
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 
 //if-else if - else
@@ -159,27 +183,6 @@ int aufgabe_2(){
 
 }
 
-// Schreibe ein separates kleines Programm, das zwei ganze Zahlen a und b vom Benutzer einliest. 
-// Verwende den ternären Operator, um den größeren der beiden Werte zu ermitteln und auszugeben. 
-// Berechne dann das Ergebnis von a / b als Gleitkommazahl und gib es aus. Verwende eine explizite 
-// Typumwandlung, um Gleitkomma-Division sicherzustellen. Schütze vor Division durch null mit einer 
-// if-Bedingung vor der Division — gib eine Fehlermeldung aus, falls b gleich null ist.
-int aufgabe_3_3(){
-    int a, b;
-    printf("Enter two numbers: ");
-    scanf("%d %d", &a, &b);
-    int max = (a > b) ? a : b;
-    printf("%d", max);
-    printf("\n");
-
-    if (b == 0){
-        printf("Division is unmoglisch");
-    } else{
-        printf("Division is %lf", (double) a / b);
-    }
-}
-
-
 //switch - case
 int aufgabe_3(){
     int month;
@@ -218,7 +221,58 @@ int aufgabe_3(){
 
 }
 
+int aufgabe_3_3(){
+    int a, b;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &a, &b);
+    int max = (a > b) ? a : b;
+    printf("%d", max);
+    printf("\n");
+
+    if (b == 0){
+        printf("Division is unmoglisch");
+    } else{
+        printf("Division is %lf", (double) a / b);
+    }
+}
+
+int aufgabe_4(){
+    double a, b;
+    char op;
+
+    printf("Enter first number: ");
+    scanf("%lf", &a);
+
+    printf("Enter operator (+, -, *, /): ");
+    scanf(" %c", &op);   // leading space skips leftover whitespace/newline
+
+    printf("Enter second number: ");
+    scanf("%lf", &b);
+
+    switch (op) {
+        case '+':
+            printf("Result: %.2f\n", a + b);
+            break;
+        case '-':
+            printf("Result: %.2f\n", a - b);
+            break;
+        case '*':
+            printf("Result: %.2f\n", a * b);
+            break;
+        case '/':
+            if (b == 0) {
+               printf("Error: division by zero is not allowed.\n");
+            } else {
+               printf("Result: %.2f\n", a / b);
+            }
+            break;
+        default:
+            printf("Error: unknown operator '%c'.\n", op);
+            break;
+    }
+}
+
 
 int main(void){
-    aufgabe_3_3();
+    aufgabe_4();
 }
