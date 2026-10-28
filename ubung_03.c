@@ -88,6 +88,7 @@
 int aufgabe_a(){
     int a = 17;
     int b = 5;
+    bool f = false;
     printf("a + b = %d\n",  a + b);   // 22
     printf("a - b = %d\n",  a - b);   // 12
     printf("a * b = %d\n",  a * b);   // 85
