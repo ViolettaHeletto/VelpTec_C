@@ -28,6 +28,57 @@
 //    3   6   9  12
 //    4   8  12  16
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Übung 05.2.Ü.02
+// Abschlussbedingungen
+//  Erledigt: Anzeigen
+// Aufgabe: Schleifen mit Bedingungen schreiben und analysieren
+// Wende dein Wissen über C-Schleifen und Bedingungsanweisungen an, um die folgenden Aufgaben zu lösen. Jede Teilaufgabe erfordert, dass du Schleifenverhalten mit while, do-while und for-Schleifen kombiniert mit den Operatoren und Datentypen, die du kennengelernt hast, nachvollziehst, schreibst oder vorhersagst.
+
+// a) Ausgabe nachvollziehen: Bestimme, was das folgende Programm Schritt für Schritt ausgibt. Schreibe jede Ausgabezeile auf und erkläre, was in jeder Iteration passiert.
+
+// #include <stdio.h>
+
+// int main(void) {
+//     int total = 0;
+//     int i = 1;
+//     while (i <= 4) {
+//         if (i % 2 == 0) {
+//             total += i * 2;
+//         } else {
+//             total += i;
+//         }
+//         printf("i=%d total=%d\n", i, total);
+//         i++;
+//     }
+//     return 0;
+// }
+// b) Schleife mit do-while schreiben: Schreibe ein vollständiges C-Programm, das eine do-while-Schleife verwendet, um eine ganze Zahl vom Benutzer einzulesen. Die Schleife muss so lange erneut fragen, bis der Benutzer einen Wert strikt zwischen 1 und 100 (exklusiv) eingibt. Sobald ein gültiger Wert eingegeben wurde, gib aus: Valid input: <value>.
+
+// c) Verschachtelte for-Schleife schreiben: Schreibe ein vollständiges C-Programm, das verschachtelte for-Schleifen verwendet, um das folgende Zahlenmuster im Terminal auszugeben. Die äußere Schleife steuert die Zeilen (1 bis 4) und die innere Schleife gibt die Spaltenwerte aus. Jede Zeilennummer wird so oft wiederholt, wie die Zeilennummer selbst angibt.
+
+// 1
+// 2 2
+// 3 3 3
+// 4 4 4 4
+// d) Einen Fehler finden und beheben: Das folgende Programm soll die Summe aller ganzen Zahlen von 1 bis n berechnen, wobei n vom Benutzer eingegeben wird. Es enthält einen Fehler. Identifiziere den Fehler und schreibe die korrigierte Version.
+
+// #include <stdio.h>
+
+// int main(void) {
+//     int n;
+//     printf("Enter n: ");
+//     scanf("%d", &n);
+
+//     int sum = 0;
+//     for (int i = 1; i <= n; i++) {
+//         sum = i;
+//     }
+//     printf("Sum from 1 to %d = %d\n", n, sum);
+//     return 0;
+// }
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 
 int aufgabe_1a(){
@@ -62,10 +113,37 @@ int aufgabe_1d(){
     }
 }
 
+int aufgabe_2b(){
+    int value;
+    do{
+        scanf("%d", &value);
+        printf("Valid input: %d", value);
+    }while( value >= 1 && value <= 100);
+}
 
+int aufgabe_2c(){
+    for (int row = 1; row <= 4; row++) {
+        for (int col = row; col >= 1; col--) {
+            printf("%d ", row);
+        }
+        printf("\n");
+    }
+}
+
+int aufgabe_2d(){
+    int n;
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    int sum = 0;
+    for (int i = 1; i <= n; i++) {
+        sum += i;
+    }
+    printf("Sum from 1 to %d = %d\n", n, sum);
+}
 
 
 int main(void){
-    aufgabe_1d();
+    aufgabe_2d();
     return 0;
 }
