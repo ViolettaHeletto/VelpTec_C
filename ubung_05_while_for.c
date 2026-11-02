@@ -78,6 +78,40 @@
 //     return 0;
 // }
 /////////////////////////////////////////////////////////////////////////////////////////
+// Übung 05.3.Ü.01
+// Abschlussbedingungen
+//  Erledigt: Anzeigen
+// Aufgabe: Schleifenausführung mit break und continue steuern
+// Beschreibe den Unterschied zwischen den Anweisungen break und continue in C-Schleifen. Wende dann beide Anweisungen an, indem du die folgenden Code-Ausschnitte nachvollziehst und ihre Ausgabe bestimmst.
+
+// a) Erkläre in eigenen Worten, was break innerhalb einer Schleife bewirkt und was continue bewirkt. Gib an, in welchen Schleifentypen jedes Schlüsselwort verwendet werden kann.
+
+// b) Verfolge den folgenden Code und schreibe die genaue Ausgabe auf, die er erzeugt. Erkläre Schritt für Schritt, warum die Ausgabe so aussieht, wie sie aussieht.
+
+// for (int i = 1; i <= 6; i++) {
+//     if (i == 4) {
+//         break;
+//     }
+//     printf("%d ", i);
+// }
+// printf("\nDone\n");
+// c) Verfolge den folgenden Code und schreibe die genaue Ausgabe auf, die er erzeugt. Erkläre, warum bestimmte Werte übersprungen werden.
+
+// for (int i = 1; i <= 8; i++) {
+//     if (i % 3 == 0) {
+//         continue;
+//     }
+//     printf("%d ", i);
+// }
+// printf("\nDone\n");
+// d) Eine häufige Fehlerquelle ist die Verwechslung von break und continue. Entscheide für jedes der beiden folgenden Szenarien, ob break oder continue die richtige Wahl ist, und begründe kurz deine Antwort.
+
+// Szenario 1: Du iterierst über eine Liste von Zahlen und möchtest alle Werte summieren, aber jede Zahl gleich null überspringen.
+// Szenario 2: Du durchsuchst eine Liste von Namen und möchtest stoppen, sobald du den Namen “Alice” gefunden hast.
+// Kursunterlagen: Kapitel 5.3 (Schleifensteuerung und häufige Muster)
+// Stift und Papier oder ein Texteditor zum Nachvollziehen der Ausgabe
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 
@@ -142,8 +176,27 @@ int aufgabe_2d(){
     printf("Sum from 1 to %d = %d\n", n, sum);
 }
 
+int aufgabe_3b(){
+    for (int i = 1; i <= 6; i++) {
+        if (i == 4) {
+            break;
+        }
+        printf("%d ", i);
+    }
+    printf("\nDone\n");
+}
+
+int aufgabe_3c(){
+    for (int i = 1; i <= 8; i++) {
+        if (i % 3 == 0) {
+            continue;
+        }
+        printf("%d ", i);
+    }
+    printf("\nDone\n");
+}
 
 int main(void){
-    aufgabe_2d();
+    aufgabe_3c();
     return 0;
 }
