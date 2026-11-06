@@ -217,3 +217,74 @@ int main(void) {
 
     return 0;
 }*/
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Case Study 07.4.C.01
+// Abschlussbedingungen
+//  Erledigt: Anzeigen
+// Aufgabe: Einen Studierenden-Notenmanager mit Funktionen und Arrays erstellen
+// Du arbeitest als Junior-C-Entwickler bei einem kleinen Unternehmen für Bildungssoftware. Dein Team hat die Aufgabe, ein Kommandozeilen-Tool zu erstellen, das Studierenden-Noten für eine Universitätsabteilung verwaltet. Das Tool soll Studierendennamen und ihre Prüfungspunkte speichern, Statistiken berechnen und eine einfache Suchfunktion bereitstellen. Dein Teamleiter hat dich gebeten, dies mithilfe von Funktionen, Arrays und Strings zu implementieren — und dabei alle guten Praktiken anzuwenden, die du bisher gelernt hast.
+
+// Das Programm soll bis zu 5 Studierende verwalten. Jede Person hat einen Namen (bis zu 49 Zeichen) und einen Integer-Punktestand (0–100).
+
+// Deine Aufgabe: Implementiere die folgenden vier Funktionen und eine main-Funktion, die zeigt, wie sie zusammenarbeiten.
+
+// a) Schreibe eine Funktion void print_student(char name[], int score), die den Namen und den Punktestand eines einzelnen Studierenden im Format: Name: Alice | Score: 87 ausgibt. Die Funktion muss einen Funktionsprototyp verwenden, der vor main deklariert wird.
+
+// b) Schreibe eine Funktion double calculate_average(int scores[], int count), die ein Array mit Integer-Punkteständen und die Anzahl der Elemente entgegennimmt und den Durchschnitt als double zurückgibt. Verwende diese Funktion in main, um den Klassendurchschnitt auf zwei Dezimalstellen formatiert auszugeben.
+
+// c) Schreibe eine Funktion int find_highest(int scores[], int count), die den höchsten Punktestand im Array zurückgibt. Verwende eine Schleife, um alle Elemente zu durchsuchen. Rufe diese Funktion in main auf und gib das Ergebnis aus.
+
+// d) Deklariere in main ein zweidimensionales Zeichen-Array char names[5][50] für bis zu 5 Studierendennamen und ein separates Integer-Array int scores[5] für ihre Punktestände. Initialisiere beide Arrays mit den folgenden Daten und rufe dann die Funktionen aus den Teilaufgaben a), b) und c) auf, um den vollständigen Bericht anzuzeigen:
+/////////////////////////////////////////////////////////////////////////////////////////
+// #include <stdio.h>
+// #include <string.h>
+
+// // --- Function prototypes ---
+// void print_student(char name[], int score);
+// double calculate_average(int scores[], int count);
+// int find_highest(int scores[], int count);
+
+// // --- Function definitions ---
+
+// void print_student(char name[], int score) {
+//     printf("Name: %s | Score: %d\n", name, score);
+// }
+// double calculate_average(int scores[], int count) {
+//     int total = 0;
+//     for (int i = 0; i < count; i++) {
+//         total += scores[i];
+//     }
+//     return (double)total / count;
+// }
+// int find_highest(int scores[], int count) {
+//     int highest = scores[0];
+//     for (int i = 1; i < count; i++) {
+//         if (scores[i] > highest) {
+//             highest = scores[i];
+//         }
+//     }
+//     return highest;
+// }
+// int main(void) {
+//     char names[5][50] = {
+//         "Alice", "Bob", "Carla", "David", "Eva"
+//     };
+//     int scores[5] = {87, 73, 95, 61, 82};
+//     int count = 5;
+
+//     printf("=== Student Grade Report ===\n");
+//     for (int i = 0; i < count; i++) {
+//        print_student(names[i], scores[i]);
+//     }
+
+//     double avg = calculate_average(scores, count);
+//     int top = find_highest(scores, count);
+
+//     printf("\nClass Average: %.2f\n", avg);
+//     printf("Highest Score: %d\n", top);
+
+//     return 0;
+// }
