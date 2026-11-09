@@ -62,7 +62,7 @@ int main(void) {
     int grade;
     int count = 0;
     int kategorien = 4;
-    constexpr int MAX_GRADES = 4;
+    /*constexpr*/ int MAX_GRADES = 4;
 
     printf("Enter %d grades (0-100):\n", MAX_GRADES);
 
