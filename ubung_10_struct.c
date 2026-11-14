@@ -38,18 +38,112 @@ print_student(&s2);
 
 */
 /////////////////////////////////////////////////////////////////////////////////////////
-/**/
-/////////////////////////////////////////////////////////////////////////////////////////
 /*
+Übung 10.4.Ü.01
+Abschlussbedingungen
+ Erledigt: Anzeigen
+Aufgabe: Unions, Enums und Tagged Variants in C verstehen 
+
+Erkläre den Unterschied zwischen einem struct und einer union in C. Beschreibe, wann du eine Union einer Struct vorziehen würdest, und erkläre, warum eine einfache Union ohne begleitendes Tag als unsicher gilt. 
+
+Wende dann dein Verständnis auf das folgende Szenario an: Du entwirfst einen Datentyp zur Darstellung eines Konfigurationswerts, der einen von drei Typen halten kann — eine Ganzzahl, eine Gleitkommazahl oder ein boolesches Flag. Implementiere das als Tagged Union in C. 
+
+a) Erkläre in eigenen Worten, wie sich eine Union von einer Struct in Bezug auf das Speicherlayout unterscheidet. Warum ist sizeof(union) für dieselben Mitglieder typischerweise kleiner als sizeof(struct)? 
+
+b) Beschreibe das Problem bei der Verwendung einer einfachen Union (ohne Tag) und erkläre, wie eine Tagged Union (struct + enum + union) es löst. 
+
+c) Definiere eine C-Tagged-Union namens ConfigValue, die jeweils einen der folgenden Typen speichert:
+ 
+int (für Integer-Einstellungen) 
+
+double (für Dezimaleinstellungen) 
+
+int als boolesches Flag verwendet (für Ein/Aus-Einstellungen) 
+
+Verwende ein typedef enum, um den Typ-Tag mit den Werten CONFIG_INT, CONFIG_DOUBLE und CONFIG_BOOL zu definieren. Fasse den Enum-Tag und die Union zusammen in einem typedef struct.
+
+d) Schreibe den C-Code, um eine ConfigValue-Variable zu deklarieren, die den ganzzahligen Wert 42 hält, und schreibe einen Code-Ausschnitt mit einer if- oder switch-Anweisung, der den Tag prüft und den Wert im richtigen Format ausgibt. 
 */
 /////////////////////////////////////////////////////////////////////////////////////////
 /*
+Übung 10.4.Ü.02
+c) Definiere ein C-Enum namens ShapeType mit den Werten SHAPE_CIRCLE, SHAPE_RECTANGLE und SHAPE_TRIANGLE. Weise explizite ganzzahlige Werte ab 1 zu. Definiere dann eine Tagged Union Shape, die dieses Enum als Tag mit einer Union kombiniert, die folgende Member enthält: 
+
+circle — ein struct mit einem einzelnen double-Member radius 
+
+rectangle — ein struct mit den double-Membern width und height 
+
+triangle — ein struct mit einem einzelnen double-Member base und einem einzelnen double-Member height 
+
+Schreibe eine Code-Skizze, die zeigt, wie du eine Shape-Variable für einen Kreis mit dem Radius 5.0 deklarierst und dann radius sicher liest, indem du zuerst den Tag prüfst. 
+
+d) Erkläre, was typisierte Enums in C23 sind, welches Problem sie im Vergleich zu einem einfachen enum lösen, und gib ein kurzes Beispiel mit der Syntax zur Deklaration eines typisierten Enums mit unsigned char als zugrundeliegendem Typ. 
+
 */
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 
+/*Aufgabe 4*/
+typedef enum {
+    SHAPE_CIRCLE    = 1,
+    SHAPE_RECTANGLE = 2,
+    SHAPE_TRIANGLE  = 3
+} ShapeType;
 
+typedef struct {
+    ShapeType type;   /* tag: welche Form gerade aktiv ist */
+    union {
+        struct { double radius; }         circle;
+        struct { double width; double height; } rectangle;
+        struct { double base;  double height; } triangle;
+    } data;
+} Shape;
+
+void aufgabe4() {
+    /* Einen Kreis mit Radius 5.0 deklarieren */
+    Shape s = {
+        .type        = SHAPE_CIRCLE,
+        .data.circle = { .radius = 5.0 }
+    };
+
+    /* radius sicher lesen, indem zuerst der Tag geprüft wird */
+    if (s.type == SHAPE_CIRCLE) {
+        printf("Radius: %.2f\n", s.data.circle.radius);
+    }
+}
+
+/*Aufgabe 3*/
+
+typedef enum {TYPE_INT, TYPE_DOUBLE, TYPE_BOOL} ValueType;
+
+typedef struct {
+    ValueType type;
+    union {
+        int as_int;
+        double as_double;
+        bool as_bool;
+    }value;
+
+}ConfigValue;
+
+void aufgabe3() {
+    ConfigValue v = {.type = TYPE_INT, .value.as_int = 42};
+    switch (v.type)
+    {
+    case TYPE_INT:
+        printf("Integer setting: %d\n", v.value.as_int);
+        break;
+    case TYPE_DOUBLE:
+        printf("Decimal setting: %f\n", v.value.as_double);
+        break;
+    case TYPE_BOOL:
+        printf("Boolean setting: %s\n", v.value.as_bool ? "true" : "false");
+        break;
+    };
+}
+
+/*Aufgabe 2*/
 typedef struct {
     char   name[64];
     double price;
@@ -64,14 +158,11 @@ void aufgabe2() {
     };
 
     for (int i = 0; i < 3; i++) {
-        printf("%-16s  €%.2f  stock: %d\n",
-
-catalog[i].name, catalog[i].price, catalog[i].in_stock);
+        printf("%-16s  €%.2f  stock: %d\n", catalog[i].name, catalog[i].price, catalog[i].in_stock);
     }
-
-    return 0;
 }
 
+/*Aufgabe 1*/
 typedef struct {
     char name [50];
     int student_id;
@@ -108,6 +199,6 @@ void aufgabe1(){
 }
 
 int main(void){
-    aufgabe2();
+    aufgabe3();
     return 0;
 }
