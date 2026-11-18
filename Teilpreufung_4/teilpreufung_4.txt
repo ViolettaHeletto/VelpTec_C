@@ -1,0 +1,60 @@
+/*
+Teilprüfung 4
+Abschlussbedingungen
+Zu erledigen: Abgabe einreichen Zu erledigen: Eine Bewertung erhalten
+K4.0021_4.0_14.3.C.01
+Aufgabe
+Du arbeitest als Systemprogrammierer bei einem kleinen IoT-Unternehmen. Dein Team entwickelt firmware-nahes Tooling, das auf einem Linux-Host läuft und Temperatur- sowie Feuchtigkeitsmesswerte von einem Hardware-Interface einliest (hier simuliert durch eine Binärdatei). Ein Kollege hat einen ersten Prototypen geschrieben, der jedoch kein ordentliches Fehlerhandling hat, Speicherprobleme aufweist und in einer einzigen Quelldatei zusammengepfercht ist. Deine Aufgabe ist es, eine saubere, mehrere Dateien umfassende Version zu entwerfen und zu implementieren, die alles anwendet, was du gelernt hast – Structs, dynamischer Speicher, Datei-I/O, Fehlerbehandlung und ein sauberes Makefile. 
+Das System muss: 
+Binäre Sensordatensätze aus einer auf der Kommandozeile angegebenen Eingabedatei lesen 
+Alle Datensätze in einem dynamisch wachsenden Array speichern 
+Datensätze gemäß einem auf der Kommandozeile angegebenen Schwellenwert filtern und ausgeben 
+Einen zusammenfassenden Bericht in eine Ausgabedatei schreiben 
+Alle Fehlerbedingungen robust behandeln und alle Ressourcen freigeben 
+a) Datenstrukturen und Header-Datei 
+Entwirf die Datenstrukturen und schreibe eine Header-Datei sensor.h, die Folgendes enthält: 
+Ein Struct SensorRecord mit den Feldern: uint32_t id, float temperature, float humidity, uint8_t status_flags 
+Ein typisiertes Enum SensorStatus mit unsigned char als zugrunde liegendem Typ und den Werten STATUS_OK = 0, STATUS_WARN = 1, STATUS_ERROR = 2 
+Ein Struct DynamicArray mit den Feldern: SensorRecord *data, size_t size, size_t capacity 
+Funktionsprototypen für: array_init, array_push, array_destroy, load_records, filter_and_report 
+Einen korrekten Header-Guard mit #ifndef SENSOR_H 
+rkläre deine Designentscheidungen, insbesondere: warum uint32_t und uint8_t für bestimmte Felder, warum ein typisiertes Enum und warum DynamicArray size und capacity getrennt verwendet. 
+b) Dynamisches Array und Datei-Laden 
+Implementiere die folgenden Funktionen (beschreibe die Logik; du musst nicht jede Zeile schreiben, aber sei präzise und vollständig): 
+void array_init(DynamicArray *a) – alle Felder auf null/nullptr initialisieren 
+int array_push(DynamicArray *a, SensorRecord record) – einen Datensatz anhängen und die Kapazität verdoppeln, wenn sie voll ist; bei Erfolg 0 zurückgeben, bei Allokierungsfehler -1 
+void array_destroy(DynamicArray *a) – Speicher freigeben und Felder zurücksetzen 
+int load_records(const char *path, DynamicArray *out) – die Binärdatei im richtigen Modus öffnen, SensorRecord-Structs einzeln mit fread lesen, jeden in das dynamische Array einfügen, alle Fehlerbedingungen behandeln (fopen, fread-Fehler vs. EOF, array_push-Fehler) und die Datei immer schließen 
+Beschreibe für load_records genau: 
+Warum du den Binärmodus verwendest 
+Wie du einen echten Lesefehler von einem End-of-File unterscheidest 
+Welche Aufräumarbeiten auf jedem Fehlerpfad notwendig sind 
+c) Filtern, Berichten und Fehlerbehandlung 
+Implementiere int filter_and_report(const DynamicArray *records, float threshold, const char *report_path). Diese Funktion muss: 
+Die Berichtsdatei im Schreibmodus öffnen und Fehler behandeln 
+Alle Datensätze durchlaufen 
+Nur Datensätze in die Berichtsdatei schreiben (mit fprintf), bei denen temperature > threshold UND das STATUS_ERROR-Flag-Bit NICHT in status_flags gesetzt ist 
+Für den Bit-Test eine #define PERM_STATUS_ERROR (1u << 1)-Maske und bitweises AND verwenden 
+Zählen, wie viele Datensätze geschrieben bzw. übersprungen wurden 
+Am Ende eine Zusammenfassungszeile mit den Zählern schreiben 
+Bei Erfolg 0, bei Fehler -1 zurückgeben 
+Die Berichtsdatei immer schließen 
+Beschreibe außerdem: Wie würdest du das goto cleanup-Muster einsetzen, um den fclose-Aufruf auf jedem Fehlerpfad nicht zu duplizieren? 
+d) main-Funktion und Fehlerfortpflanzung 
+Beschreibe die main-Funktion (in main.c), die: 
+Prüft, dass genau drei Kommandozeilenargumente übergeben werden: Eingabedateiname, Ausgabedateiname und Schwellenwert; bei fehlenden Argumenten eine Verwendungsanleitung auf stderr ausgibt und 1 zurückgibt 
+Das Schwellenargument mit strtod und ordentlicher Fehlerprüfung (Prüfung des end-Zeigers und errno) von einer Zeichenkette in double umwandelt 
+array_init, load_records, filter_and_report und array_destroy in der richtigen Reihenfolge aufruft 
+Fehler aus jedem Schritt behandelt, indem eine informative Fehlermeldung auf stderr ausgegeben und sichergestellt wird, dass array_destroy immer vor dem Rückgabe aufgerufen wird 
+Bei Erfolg 0, bei jedem Fehler einen Wert ungleich null zurückgibt 
+e) Makefile 
+Schreibe ein vollständiges Makefile für dieses Projekt unter folgenden Annahmen: 
+Quelldateien in src/ (main.c, sensor.c) 
+Header in include/ 
+Objektdateien in build/ 
+Compiler-Flags: -Wall -Wextra -Wpedantic -std=c23 -Iinclude 
+Variablen: CC, CFLAGS, TARGET, SRCDIR, BUILDDIR, SOURCES, OBJECTS 
+Eine Musterregel $(BUILDDIR)/%.o: $(SRCDIR)/%.c 
+Eine order-only-Voraussetzung, um build/ vor den Objektdateien zu erstellen 
+Eine .PHONY-Deklaration für all und clean
+*/
